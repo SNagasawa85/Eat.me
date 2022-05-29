@@ -31,12 +31,12 @@
             <input class="form-control" type="date" name="exp" id="exp">
             <label class="form-label" for="price">Price (optional):</label>
             <input class="form-control" type="text" name="price" id="price" placeholder="0.00">
-            <label for="quant" class="form-label">Quantity:</label>
-            <input type="number" name="quant" value="1" id="quant" min="1">
+            <label for="quant" class="form-label">Quantity(use 1 if by weight):</label>
+            <input type="number" class="form-control" name="quant" value="1" id="quant" min="1">
             <input type="hidden" name="user_id" value="{{ session['user_id']}}">
-            <button type="submit">Submit New Food</button>
+            <button class="mt-2" type="submit">Submit New Food</button>
         </form>
-        <div class="list">
+        <div class="list overflow-auto" style="height:350px;">
             <table class="table">
                 <thead>
                     <th>Name</th>

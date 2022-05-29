@@ -14,15 +14,18 @@
     <p class="fs-5 text-center">You purchased {{item.quant}}.</p>.
     <p class="fs-5 text-center">Did you eat it all?</p>
     <a href="/eat_all/{{item.id}}">Yes, I ate it all!</a>
-    <form action="/eat_some/{{item.id}}" method="post">
+    <form action="/eat_some/{{item.id}}" class="form-group" style="width: 350px;" method="post">
         <input type="hidden" name="quant" value="{{item.quant}}">
         <input type="hidden" name="price" value="{{item.price}}">
-        <label for="num">No, I only ate:</label>
-            <select name="num" id="num">
-            {% for x in range(1, total+1) %}
+        <label class="form-label" for="num">No, I only ate:</label>
+            <select class="form-select" name="num" id="num">
+            {% for x in range(0, total+1) %}
                 <option value="{{x}}">{{x}}</option>
             {% endfor%}
             </select>
+        <p class="fs-6 fw-bold">Select 0 to use percentage.</p>
+        <label class="form-label" for="perc">Percentage Eaten:</label>
+        <input class="form-control" type="text" name="perc" id="perc" placeholder="ie: 50 for 50%">
         <input type="submit" value="Confirm Eaten">
     </form>
 

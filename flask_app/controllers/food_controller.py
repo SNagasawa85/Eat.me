@@ -115,21 +115,40 @@ def eat_all(id):
 
 @app.route('/eat_some/<int:id>', methods=['POST'])
 def eat_some(id):
+    print(request.form)
     user = User.get_one({'id':session['user_id']})
     price = int(request.form['price'])
     quant = int(request.form['quant'])
     eaten = int(request.form['num'])
     unit_price = price/quant
     left = quant-eaten
-    waste = unit_price * left
     prev = Balance.get_balance({'user_id': user.id })
-    waste += int(prev.balance)
-    data = {
+    if int(request.form['num']) > 0:
+        waste = unit_price * left
+        waste += int(prev.balance)
+        data = {
         'user_id':session['user_id'],
-        'waste' : waste
-    }
-    Balance.add_waste(data)
-    return redirect('/pantry')
+        'balance' : round(waste, 2)
+        }
+        print(data)
+        Balance.add_waste(data)
+        Food.delete_food({'id':id})
+        return redirect('/pantry')
+    if int(request.form['perc']) > 0:
+        perc = int(request.form['perc'])
+        waste = price * perc / 100 
+        waste += int(prev.balance)
+        data = {
+            'user_id':session['user_id'],
+            'balance' : round(waste, 2)
+        }
+        print(data)
+        Balance.add_waste(data)
+        Food.delete_food({'id':id})
+        return redirect('/pantry')
+    else:
+        return redirect(f'/eat_food/{id}')
+
 
 @app.route('/throw_out/<int:id>')
 def throw_out(id):
